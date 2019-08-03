@@ -1,0 +1,36 @@
+{
+  "clients": {
+    "stan": {
+      "client": "STAN_CLIENT",
+      "cluster": "test-cluster",
+      "opts": {
+        "uri": "STAN_URI"
+      }
+    }
+  },
+  "databases": {
+    "mongodb": {
+      "defaultLogger": {
+        "level": "error"
+      },
+      "dispatch": {
+        "url": "MONGO_URL"
+      }
+    }
+  },
+  "port": 8080,
+  "services": {
+    "dispatch": {
+      "models": []
+    }
+  },
+  "tasks": {
+    "dispatch": {
+      "requestSubject": "DISPATCH_REQUEST_SUBJECT",
+      "services": []
+    },
+    "grooming": {
+      "services": []
+    }
+  }
+}

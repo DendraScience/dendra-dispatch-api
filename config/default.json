@@ -1,0 +1,80 @@
+{
+  "clients": {
+    "stan": {
+      "client": "dispatch-api",
+      "cluster": "test-cluster",
+      "opts": {
+        "uri": "http://localhost:4222"
+      }
+    }
+  },
+  "databases": {
+    "mongodb": {
+      "defaultLogger": {
+        "level": "info"
+      },
+      "dispatch": {
+        "paginate": {
+          "default": 200,
+          "max": 2000
+        },
+        "url": "mongodb://localhost:27017/dendra_playground",
+        "whitelist": [
+          "$all",
+          "$and",
+          "$exists",
+          "$in",
+          "$or",
+          "$text",
+          "$search"
+        ]
+      }
+    }
+  },
+  "host": "localhost",
+  "port": 3034,
+  "services": {
+    "dispatch": {
+      "models": [
+        {
+          "collection": "test_jobs1",
+          "name": "test-jobs1"
+        },
+        {
+          "collection": "test_jobs2",
+          "name": "test-jobs2"
+        }
+      ]
+    }
+  },
+  "tasks": {
+    "dispatch": {
+      "requestSubject": "dendra.dispatch.v1.req",
+      "services": [
+        "test-jobs1",
+        "test-jobs2"
+      ],
+      "timerSeconds": [
+        10,
+        15
+      ]
+    },
+    "grooming": {
+      "docLimit": 20,
+      "services": [
+        "test-jobs1",
+        "test-jobs2"
+      ],
+      "timerSeconds": [
+        50,
+        60
+      ]
+    },
+    "stan": {
+      "timerSeconds": [
+        30,
+        40
+      ]
+    }
+  }
+}
