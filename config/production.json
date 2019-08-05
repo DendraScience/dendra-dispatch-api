@@ -26,11 +26,10 @@
   },
   "tasks": {
     "dispatch": {
-      "requestSubject": "DISPATCH_REQUEST_SUBJECT",
-      "services": []
+      "targets": []
     },
     "grooming": {
-      "services": []
+      "targets": []
     }
   }
 }

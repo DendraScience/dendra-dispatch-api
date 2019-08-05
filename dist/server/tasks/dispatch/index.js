@@ -16,11 +16,8 @@ module.exports = function (app) {
   const clients = app.get('clients');
   const tasks = app.get('tasks') || {};
   const config = tasks[TASK_NAME];
-  if (!(config && config.requestSubject && clients && clients.stan)) return;
-  const services = Array.isArray(config.services) ? config.services : [];
-  const {
-    requestSubject
-  } = config;
+  if (!(config && clients && clients.stan)) return;
+  const targets = Array.isArray(config.targets) ? config.targets : [];
   const {
     stan
   } = clients;
@@ -29,7 +26,7 @@ module.exports = function (app) {
     logger.error(err);
   };
 
-  const processService = async (service, now) => {
+  const processTarget = async (service, requestSubject, now) => {
     const query = {
       dispatch_at: {
         $lte: now
@@ -106,8 +103,9 @@ module.exports = function (app) {
       return;
     }
 
-    for (const service of services) {
-      await processService(app.service(service), new Date());
+    for (const target of targets) {
+      logger.info(`Task [${TASK_NAME}]: Processing service '${target.serviceName}'`);
+      await processTarget(app.service(target.serviceName), target.requestSubject, new Date());
     } // NOTE: Add additional dispatch steps here
 
   };

@@ -12,13 +12,13 @@ module.exports = function(app) {
   if (!(config && databases)) return
 
   const docLimit = typeof config.docLimit === 'number' ? config.docLimit : 20
-  const services = Array.isArray(config.services) ? config.services : []
+  const targets = Array.isArray(config.targets) ? config.targets : []
 
   const handleError = err => {
     logger.error(err)
   }
 
-  const processService = async (service, now) => {
+  const processTarget = async (service, now) => {
     const query = {
       expires_at: { $lte: now },
       $limit: docLimit,
@@ -44,8 +44,12 @@ module.exports = function(app) {
   const runTask = async () => {
     logger.info(`Task [${TASK_NAME}]: Running...`)
 
-    for (const service of services) {
-      await processService(app.service(service), new Date())
+    for (const target of targets) {
+      logger.info(
+        `Task [${TASK_NAME}]: Processing service '${target.serviceName}'`
+      )
+
+      await processTarget(app.service(target.serviceName), new Date())
     }
 
     // NOTE: Add additional grooming steps here
