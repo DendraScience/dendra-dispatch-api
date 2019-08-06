@@ -16,7 +16,7 @@ const {
 } = require('winston');
 
 const logger = createLogger({
-  level: isProd ? 'warning' : 'debug',
+  level: isProd ? 'info' : 'debug',
   format: isProd ? format.json() : format.combine(format.timestamp(), format.prettyPrint()),
   transports: [new transports.Console()]
 });
