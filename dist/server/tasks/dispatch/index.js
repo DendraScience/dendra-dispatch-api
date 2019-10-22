@@ -2,6 +2,8 @@
 
 const moment = require('moment');
 
+const murmurHash3 = require('murmurhash3js');
+
 const {
   configTimerSeconds
 } = require('../../lib/utils');
@@ -59,8 +61,19 @@ module.exports = function (app) {
     for (const item of res.data) {
       logger.info(`Task [${TASK_NAME}]: Dispatching ${item._id}`);
       /*
+        If multiple subjects are configured, then pick one based on a hash key.
+       */
+
+      if (Array.isArray(requestSubject)) {
+        const key = `${item.dispatch_key || item._id}`;
+        const hash = murmurHash3.x86.hash32(key);
+        requestSubject = requestSubject[hash % requestSubject.length];
+        logger.info(`Task [${TASK_NAME}]: Selected '${requestSubject}' using key '${key}' and hash ${hash}`);
+      }
+      /*
         Prepare outbound message and publish.
        */
+
 
       const reqAt = moment();
       const dispatchInfo = item.dispatch_info = {

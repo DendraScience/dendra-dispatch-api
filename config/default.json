@@ -18,7 +18,7 @@
           "default": 200,
           "max": 2000
         },
-        "url": "mongodb://localhost:27017/dendra_playground",
+        "url": "mongodb://localhost:27017/dendra_test",
         "whitelist": [
           "$exists",
           "$or"
