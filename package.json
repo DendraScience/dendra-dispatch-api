@@ -47,7 +47,7 @@
     "feathers-mongodb": "^4.0.4",
     "helmet": "^3.21.1",
     "lodash": "^4.17.15",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "mongodb": "^3.3.3",
     "murmurhash3js": "^3.0.1",
     "node-nats-streaming": "0.0.51",
